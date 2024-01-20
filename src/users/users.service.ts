@@ -48,7 +48,10 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    const existUser = await this.usersRepo.findOneBy({ id: id });
+    const existUser = await this.usersRepo.findOne({
+      where: { id },
+      relations: { followers: true, following: true },
+    });
     if (!existUser) {
       throw new NotFoundException('user not found');
     }
@@ -124,6 +127,10 @@ export class UsersService {
   }
 
   async setProfilePicture(file: Express.Multer.File, req: any) {
+    if (!file) {
+      throw new BadRequestException('please select a photo');
+    }
+
     // console.log(__dirname);
     const userId = req.user.id;
     const updatedUser = await this.usersRepo.findOneBy({ id: userId });
