@@ -15,6 +15,7 @@ import { FollowsService } from './follows.service';
 import { CreateFollowDto } from './dto/create-follow.dto';
 import { UpdateFollowDto } from './dto/update-follow.dto';
 import { Request, Response } from 'express';
+import { NoAuth } from 'src/auth/decorators/noauth.decorator';
 
 @Controller('follows')
 export class FollowsController {
@@ -41,10 +42,12 @@ export class FollowsController {
     res.json(follow);
   }
 
+  @NoAuth()
   @Get('followers/:id')
   getFollowers(@Param('id') id: string) {
     return this.followsService.getFollowers(id);
   }
+  @NoAuth()
   @Get('followings/:id')
   getFollowings(@Param('id') id: string) {
     return this.followsService.getFollowings(id);

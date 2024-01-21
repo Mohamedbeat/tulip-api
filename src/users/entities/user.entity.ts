@@ -43,9 +43,15 @@ export class User {
   })
   updatedAt: Date;
 
-  @OneToMany(() => Follow, (follow) => follow.follower)
+  @OneToMany(() => Follow, (follow) => follow.follower, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   following: Follow[];
 
-  @OneToMany(() => Follow, (follow) => follow.following)
+  @OneToMany(() => Follow, (follow) => follow.following, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   followers: Follow[];
 }
