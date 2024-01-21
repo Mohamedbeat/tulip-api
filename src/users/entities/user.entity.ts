@@ -1,4 +1,6 @@
+import { Exclude } from 'class-transformer';
 import { Follow } from 'src/follows/entities/follow.entity';
+import { Post } from 'src/posts/entities/post.entity';
 import {
   Column,
   CreateDateColumn,
@@ -19,6 +21,7 @@ export class User {
   @Column()
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 
@@ -28,19 +31,10 @@ export class User {
   @Column({ default: true })
   isActivated: boolean;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    precision: 6,
-    default: () => 'CURRENT_TIMESTAMP(6)',
-  })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
-    precision: 6,
-    default: () => 'CURRENT_TIMESTAMP(6)',
-  })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => Follow, (follow) => follow.follower, {
@@ -54,4 +48,14 @@ export class User {
     onDelete: 'CASCADE',
   })
   followers: Follow[];
+
+  @OneToMany(() => Post, (post) => post.user, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  posts: Post[];
+
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
 }

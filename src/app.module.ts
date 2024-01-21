@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { FollowsModule } from './follows/follows.module';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { FollowsModule } from './follows/follows.module';
     UsersModule,
     AuthModule,
     FollowsModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
